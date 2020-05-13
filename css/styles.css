@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+@font-face {
+    font-family: 'Operator Mono Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Operator Mono Bold'), url('fonts/OperatorMono-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Operator Mono Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Operator Mono Book'), url('fonts/OperatorMono-Book.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Operator Mono Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Operator Mono Medium'), url('fonts/OperatorMono-Medium.woff') format('woff');
+
+}
+
+body {
+    padding: 0;
+    font-size: 18px;
+    margin: 0;
+    font-family: 'Operator Mono Book';
+    scroll-behavior: smooth;
+    line-height: 1.67;
+}
+
+
+body,
+html {
+    height: 100%;
+}
+
+.main-content {
+    display: flex;
+    height: 100%;
+}
+
+.text-container {
+    flex: 1;
+    padding: 30px;
+    border: 0;
+    resize: none;
+}
+
+
+.text-container:focus {
+    outline: none;
+}
+
+.preview {
+    flex: 1;
+    background-color: #F3F3F3;
+    overflow-y: scroll;
+    padding: 0 50px;
+    font-family: Lato, Helvetica Neue, Helvetica, sans-serif;
+}
