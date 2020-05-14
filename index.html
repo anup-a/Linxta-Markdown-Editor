@@ -10,11 +10,50 @@
 </head>
 
 <body>
+    <header>
+        <div class="top-bar">
+            <div class="icons">
+                <div class="styles" id="bold" onclick="addStyle(this)">
+                    B
+                </div>
+                <div class="styles" id="italic" onclick="addStyle(this)">
+                    I
+                </div>
+                <div class="styles" id="heading" onclick="addStyle(this)">
+                    <b>T</b>
+                </div>
+                <div class="styles" id="strike" onclick="addStyle(this)">
+                    <strike>S</strike>
+                </div>
+                <div class="styles" id="list" onclick="addStyle(this)">
+                    Li
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="main-content">
         <textarea name="text-container" class="text-container" spellcheck="false" autocomplete="off"
             autofocus># Write your markdown</textarea>
         <div class="preview"></div>
     </div>
+    <footer>
+        <div class="bottom-bar">
+            <div class="icons">
+                <a onclick="onSave()">
+                    <p>Save</p>
+                </a>
+                <a onclick="onClear()">
+                    <p>Clear</p>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Components -->
+    <div class="popup hide">
+        <p></p>
+    </div>
+
     <script src="./js/showdown.js"></script>
     <script src="./js/index.js"></script>
 </body>
