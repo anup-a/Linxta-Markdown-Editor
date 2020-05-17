@@ -7,6 +7,7 @@
     <title>Markdown Previewer</title>
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/styles.css">
+
 </head>
 
 <body>
@@ -14,10 +15,10 @@
         <div class="top-bar">
             <div class="icons">
                 <div class="styles" id="bold" onclick="addStyle(this)">
-                    B
+                    <b>B</b>
                 </div>
                 <div class="styles" id="italic" onclick="addStyle(this)">
-                    I
+                    <i>I</i>
                 </div>
                 <div class="styles" id="heading" onclick="addStyle(this)">
                     <b>T</b>
@@ -26,7 +27,19 @@
                     <strike>S</strike>
                 </div>
                 <div class="styles" id="list" onclick="addStyle(this)">
-                    Li
+                    <ion-icon name="list-outline"></ion-icon>
+                </div>
+                <div class="styles" id="hor-line" onclick="addStyle(this)">
+                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                </div>
+                <div class="styles" id="table" onclick="addStyle(this)">
+                    <ion-icon name="apps-outline"></ion-icon>
+                </div>
+                <div class="styles" id="code" onclick="addStyle(this)">
+                    <ion-icon name="code-slash-outline"></ion-icon>
+                </div>
+                <div class="styles" id="emoji-button">
+                    <ion-icon name="happy-outline"></ion-icon>
                 </div>
             </div>
         </div>
@@ -54,8 +67,11 @@
         <p></p>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
     <script src="./js/showdown.js"></script>
     <script src="./js/index.js"></script>
+    <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
+
 </body>
 
 </html>

@@ -4,9 +4,13 @@
 let textEditor = document.querySelector('.text-container');
 let preview = document.querySelector('.preview');
 let popup = document.querySelector('.popup');
+const button = document.querySelector('#emoji-button');
+const picker = new EmojiButton();
+
 
 var converter = new showdown.Converter();
 const storage = window.localStorage;
+
 
 // showdown config
 converter.setOption('tables', 'true');
@@ -18,6 +22,10 @@ converter.setOption('smoothLivePreview', 'true');
 
 
 const storedMarkdown = storage.getItem('data');
+const table_content = "\n|Col 1 |  Col 2|\n|--|--|\n| row 1, 1 |row 1, 2|\n| row 2, 1 |row 2, 2|\n"
+const stike_content = "~~Strikethrough Text~~";
+const head_content = "\n## Heading 1";
+const code_content = "\n```\n// python 3.6 🐍\nmsg = 'Hello world !'\nprint(msg)\n```"
 
 if (storedMarkdown) {
     textEditor.value = storedMarkdown;
@@ -35,6 +43,21 @@ textEditor.addEventListener("keyup", (evt) => {
     renderPreview(value);
 });
 
+
+// Emoji Picker
+
+window.addEventListener('DOMContentLoaded', () => {
+    picker.on('emoji', emoji => {
+        // textEditor.value += emoji;
+        insertAtCursor(textEditor, emoji);
+        renderPreview(textEditor.value);
+    });
+
+    button.addEventListener('click', () => {
+        picker.togglePicker(button);
+    });
+});
+
 function addStyle(ele) {
     const current_id = ele.id;
     const curr_value = textEditor.value;
@@ -47,15 +70,24 @@ function addStyle(ele) {
     }
 
     else if (current_id == 'heading') {
-        textEditor.value = curr_value + "## Heading 1";
+        textEditor.value = curr_value + head_content;
     }
 
     else if (current_id == 'strike') {
-        textEditor.value = curr_value + "~~Strikethrough Text~~";
+        textEditor.value = curr_value + strike_content;
     }
 
     else if (current_id == 'list') {
         textEditor.value = curr_value + "\n - List Item";
+    }
+    else if (current_id == 'hor-line') {
+        textEditor.value = curr_value + "\n ---";
+    }
+    else if (current_id == 'table') {
+        textEditor.value = curr_value + table_content;
+    }
+    else if (current_id == 'code') {
+        textEditor.value = curr_value + code_content;
     }
 
     renderPreview(textEditor.value);
@@ -65,12 +97,15 @@ function addStyle(ele) {
 
 function onSave() {
     storage.setItem('data', textEditor.value);
-    showpopup("Saved 🌲🌲");
+    showpopup("Saved Locally 🌲🌲");
 }
 
 function onClear() {
     storage.clear();
-    showpopup("Cleared 🪓🪓")
+    showpopup("Cleared 🪓🪓");
+    setTimeout(function () {
+        location.reload();
+    }, 2000);
 }
 
 
@@ -78,11 +113,7 @@ function showpopup(text) {
 
     popup.classList.add('show');
     popup.classList.remove('hide');
-
     popup.innerHTML = "<p>" + text + "</p>";
-    // popup.style.visibility = 'visible';
-    // popup.style.display = 'block';
-
     setTimeout(hidepopup, 1000);
 }
 
@@ -92,6 +123,24 @@ function hidepopup() {
 }
 
 
+function insertAtCursor(myField, myValue) {
+    //IE support
+    if (document.selection) {
+        myField.focus();
+        sel = document.selection.createRange();
+        sel.text = myValue;
+    }
+    //MOZILLA and others
+    else if (myField.selectionStart || myField.selectionStart == '0') {
+        var startPos = myField.selectionStart;
+        var endPos = myField.selectionEnd;
+        myField.value = myField.value.substring(0, startPos)
+            + myValue
+            + myField.value.substring(endPos, myField.value.length);
+    } else {
+        myField.value += myValue;
+    }
+}
 
 // TODO:Fetch Selected Text
 
@@ -104,6 +153,3 @@ function hidepopup() {
 //     }
 //     return text;
 // }
-
-
-
