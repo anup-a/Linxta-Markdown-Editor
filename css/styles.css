@@ -75,8 +75,8 @@ html {
 
 .bottom-bar .icons a {
     color: #f3f3f3;
-    margin: 0rem 1.5rem;
-    font-size: 1rem;
+    margin: 0.3rem 1.5rem;
+    font-size: 0.8em;
 }
 
 .bottom-bar .icons a:hover {
@@ -173,4 +173,35 @@ pre {
     padding: 1.5rem;
     border-radius: 1rem;
     /* opacity: 0.8; */
+}
+
+
+/* styling scrollbar */
+
+.preview::-webkit-scrollbar {
+    width: 0.7em;
+}
+
+.preview::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.preview::-webkit-scrollbar-thumb {
+    background-color: rgb(123, 87, 161);
+    outline: 1px solid rgb(141, 108, 179);
+    border-radius: 10px;
+}
+
+.text-container::-webkit-scrollbar {
+    width: 0.7em;
+}
+
+.text-container::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.text-container::-webkit-scrollbar-thumb {
+    background-color: rgb(145, 117, 175);
+    outline: 1px solid rgb(141, 108, 179);
+    border-radius: 10px;
 }
