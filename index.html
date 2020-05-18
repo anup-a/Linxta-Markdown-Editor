@@ -27,20 +27,28 @@
                     <strike>S</strike>
                 </div>
                 <div class="styles" id="list" onclick="addStyle(this)">
-                    <ion-icon name="list-outline"></ion-icon>
+                    <ion-icon name="list"></ion-icon>
                 </div>
                 <div class="styles" id="hor-line" onclick="addStyle(this)">
-                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                    <ion-icon name="ellipsis-horizontal"></ion-icon>
                 </div>
                 <div class="styles" id="table" onclick="addStyle(this)">
-                    <ion-icon name="apps-outline"></ion-icon>
+                    <ion-icon name="apps"></ion-icon>
                 </div>
                 <div class="styles" id="code" onclick="addStyle(this)">
-                    <ion-icon name="code-slash-outline"></ion-icon>
+                    <ion-icon name="code-slash"></ion-icon>
                 </div>
                 <div class="styles" id="emoji-button">
-                    <ion-icon name="happy-outline"></ion-icon>
+                    <ion-icon name="happy"></ion-icon>
                 </div>
+            </div>
+            <div class="site-props">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox" class="mode-toggle">
+                    <div class="circle-toggler">
+                        <div class="crescent"></div>
+                    </div>
+                </label>
             </div>
         </div>
     </header>
@@ -69,6 +77,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
     <script src="./js/showdown.js"></script>
+    <script src="./js/emoji.js"></script>
     <script src="./js/index.js"></script>
     <script src="https://unpkg.com/ionicons@5.0.0/dist/ionicons.js"></script>
 

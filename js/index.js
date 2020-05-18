@@ -4,9 +4,12 @@
 let textEditor = document.querySelector('.text-container');
 let preview = document.querySelector('.preview');
 let popup = document.querySelector('.popup');
+
 const button = document.querySelector('#emoji-button');
 const picker = new EmojiButton();
-
+const nightMode = document.querySelector('#checkbox');
+const topBar = document.querySelector(".top-bar");
+const pre = document.getElementsByTagName("pre");
 
 var converter = new showdown.Converter();
 const storage = window.localStorage;
@@ -43,6 +46,37 @@ textEditor.addEventListener("keyup", (evt) => {
     renderPreview(value);
 });
 
+
+// Night Mode
+
+nightMode.addEventListener("click", (evt) => {
+    if (nightMode.checked) {
+        textEditor.classList.add("dark");
+        topBar.classList.add("dark");
+        preview.classList.add("dark-preview");
+
+        for (var i = 0; i < pre.length; i++) {
+            if (pre[i].classList.length === 0) {
+                pre[i].classList.add("dark-code");
+            }
+        }
+
+        popup.classList.add("dark-popup");
+
+    } else {
+        textEditor.classList.remove("dark");
+        topBar.classList.remove("dark");
+        preview.classList.remove("dark-preview");
+
+        for (var i = 0; i < pre.length; i++) {
+            if (pre[i].classList.length != 0) {
+                pre[i].classList.remove("dark-code");
+            }
+        }
+
+        popup.classList.remove("dark-popup");
+    }
+});
 
 // Emoji Picker
 
