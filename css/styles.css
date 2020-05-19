@@ -127,7 +127,7 @@ html {
     background: white;
     transform: scale(0);
     transform-origin: top right;
-    transition: transform .6s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: transform .3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
 
