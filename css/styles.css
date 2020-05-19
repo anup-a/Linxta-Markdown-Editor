@@ -7,6 +7,10 @@
     src: local('Operator Mono Book'), url('fonts/OperatorMono-Book.woff') format('woff');
 }
 
+:root {
+    --main-purle: rgb(85, 49, 119);
+
+}
 
 body {
     padding: 0;
@@ -46,7 +50,7 @@ html {
 }
 
 .bottom-bar {
-    background-color: rgb(85, 49, 119);
+    background-color: var(--main-purle);
     bottom: 0;
 }
 
@@ -133,7 +137,6 @@ html {
 
 .checkbox:checked+.mode-toggle .circle-toggler {
     transform: translateX(25px);
-    /* background-color: #d4418e; */
     background-image: linear-gradient(40deg, #8983F7, #A3DAFB 70%);
 }
 
@@ -292,3 +295,16 @@ pre {
     outline: 1px solid rgb(141, 108, 179);
     border-radius: 10px;
 }
+
+
+/* Link Styles */
+
+.preview a {
+    color: rgb(167, 96, 243);
+    font-weight: 600;
+}
+
+
+/* code linting */
+
+/* 1. All headings starting of Line */
