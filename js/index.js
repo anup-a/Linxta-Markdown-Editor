@@ -30,22 +30,55 @@ const stike_content = "~~Strikethrough Text~~";
 const head_content = "\n## Heading 1";
 const code_content = "\n```\n// python 3.6 🐍\nmsg = 'Hello world !'\nprint(msg)\n```"
 
+
+document.execCommand('defaultParagraphSeparator', false, '\n');
+
 if (storedMarkdown) {
     textEditor.value = storedMarkdown;
 }
 
-renderPreview(textEditor.value);
+renderPreview(textEditor.textContent);
 
 function renderPreview(value) {
+    // console.log(value)
     html = converter.makeHtml(value);
     preview.innerHTML = html;
 }
 
+var convert = (function () {
+    var convertElement = function (element) {
+        switch (element.tagName) {
+            case "BR":
+                return "\n";
+            case "P": // fall through to DIV
+            case "DIV":
+                return (element.previousSibling ? "\n" : "") + [].map.call(element.childNodes, convertElement).join("");
+            default:
+                return element.textContent;
+        }
+    };
+
+    return function (element) {
+        return [].map.call(element.childNodes, convertElement).join("");
+    };
+})();
+
 textEditor.addEventListener("keyup", (evt) => {
-    let { value } = evt.target;
-    renderPreview(value);
+    const formatted_text = convert(textEditor)
+    renderPreview(formatted_text);
 });
 
+
+
+// $('div[contenteditable]').keydown(function (e) {
+//     // trap the return key being pressed
+//     if (e.keyCode === 13) {
+//         // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
+//         document.execCommand('insertHTML', false, '<br/>');
+//         // prevent the default behaviour of return key pressed
+//         return false;
+//     }
+// });
 
 // Night Mode
 
@@ -187,3 +220,27 @@ function insertAtCursor(myField, myValue) {
 //     }
 //     return text;
 // }
+
+
+// Text Linting
+
+head_regex = /(^[#]+\s.*)/gm
+// test_string = textEditor.value.toString();
+// heading_match = get_match(head_regex, test_string);
+
+
+function lint_text(re) {
+    console.log(textEditor.innerHTML);
+    const html_body = textEditor.innerHTML;
+    textEditor.innerHTML = html_body.replace(re, '<span class="heading">$1</span>');
+}
+
+// lint_text(head_regex);
+
+// function get_match(re, str) {
+//     index_str = []
+//     while ((match = re.exec(str)) != null) {
+//         index_str.add(match.index)
+//     }
+//     return index_str
+// } 

@@ -28,6 +28,11 @@ html {
     overflow-y: hidden;
 }
 
+h1 {
+    font-weight: 800;
+}
+
+
 .main-content {
     display: flex;
     height: 100%;
@@ -174,6 +179,7 @@ html {
     padding: 30px;
     border: 0;
     resize: none;
+    overflow: scroll;
 }
 
 
@@ -193,10 +199,6 @@ html {
 .text-container {
     margin-bottom: 60px;
     padding-bottom: 60px;
-}
-
-h1 {
-    font-weight: 900;
 }
 
 .preview h1,
@@ -308,3 +310,7 @@ pre {
 /* code linting */
 
 /* 1. All headings starting of Line */
+
+.heading {
+    color: coral;
+}
