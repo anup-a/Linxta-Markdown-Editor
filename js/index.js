@@ -25,10 +25,10 @@ converter.setOption('smoothLivePreview', 'true');
 
 
 const storedMarkdown = storage.getItem('data');
-const table_content = "\n|Col 1 |  Col 2|\n|--|--|\n| row 1, 1 |row 1, 2|\n| row 2, 1 |row 2, 2|\n"
-const stike_content = "~~Strikethrough Text~~";
-const head_content = "\n## Heading 1";
-const code_content = "\n```\n// python 3.6 🐍\nmsg = 'Hello world !'\nprint(msg)\n```"
+const table_content = "<br>|Col 1 |  Col 2|<br>|--|--|<br>| row 1, 1 |row 1, 2|<br>| row 2, 1 |row 2, 2|<br>"
+const strike_content = "~~Strikethrough Text~~";
+const head_content = "<br>## Heading 1";
+const code_content = "<br>```<br>// python 3.6 🐍<br>msg = 'Hello world !'<br>print(msg)<br>```"
 
 
 document.execCommand('defaultParagraphSeparator', false, '\n');
@@ -37,20 +37,14 @@ if (storedMarkdown) {
     textEditor.value = storedMarkdown;
 }
 
-renderPreview(textEditor.textContent);
-
-function renderPreview(value) {
-    // console.log(value)
-    html = converter.makeHtml(value);
-    preview.innerHTML = html;
-}
 
 var convert = (function () {
     var convertElement = function (element) {
         switch (element.tagName) {
             case "BR":
                 return "\n";
-            case "P": // fall through to DIV
+            case "P":
+                return "\n";
             case "DIV":
                 return (element.previousSibling ? "\n" : "") + [].map.call(element.childNodes, convertElement).join("");
             default:
@@ -63,22 +57,21 @@ var convert = (function () {
     };
 })();
 
+renderPreview();
+
+function renderPreview() {
+    value = convert(textEditor)
+    console.log(value)
+
+    html = converter.makeHtml(value);
+    console.log(html)
+    preview.innerHTML = html;
+}
+
 textEditor.addEventListener("keyup", (evt) => {
-    const formatted_text = convert(textEditor)
-    renderPreview(formatted_text);
+    renderPreview();
 });
 
-
-
-// $('div[contenteditable]').keydown(function (e) {
-//     // trap the return key being pressed
-//     if (e.keyCode === 13) {
-//         // insert 2 br tags (if only one br tag is inserted the cursor won't go to the next line)
-//         document.execCommand('insertHTML', false, '<br/>');
-//         // prevent the default behaviour of return key pressed
-//         return false;
-//     }
-// });
 
 // Night Mode
 
@@ -117,7 +110,7 @@ window.addEventListener('DOMContentLoaded', () => {
     picker.on('emoji', emoji => {
         // textEditor.value += emoji;
         insertAtCursor(textEditor, emoji);
-        renderPreview(textEditor.value);
+        renderPreview();
     });
 
     button.addEventListener('click', () => {
@@ -127,37 +120,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function addStyle(ele) {
     const current_id = ele.id;
-    const curr_value = textEditor.value;
+    const curr_value = textEditor.innerHTML;
 
     if (current_id == 'bold') {
-        textEditor.value = curr_value + "**Bold Text**";
+        textEditor.innerHTML = curr_value + "**Bold Text**";
     }
     else if (current_id == 'italic') {
-        textEditor.value = curr_value + "*Italic Text*";
+        textEditor.innerHTML = curr_value + "*Italic Text*";
     }
 
     else if (current_id == 'heading') {
-        textEditor.value = curr_value + head_content;
+        textEditor.innerHTML = curr_value + head_content;
     }
 
     else if (current_id == 'strike') {
-        textEditor.value = curr_value + strike_content;
+        textEditor.innerHTML = curr_value + strike_content;
     }
 
     else if (current_id == 'list') {
-        textEditor.value = curr_value + "\n - List Item";
+        textEditor.innerHTML = curr_value + "<br> - List Item";
     }
     else if (current_id == 'hor-line') {
-        textEditor.value = curr_value + "\n ---";
+        textEditor.innerHTML = curr_value + "<br> ---";
     }
     else if (current_id == 'table') {
-        textEditor.value = curr_value + table_content;
+        textEditor.innerHTML = curr_value + table_content;
     }
     else if (current_id == 'code') {
-        textEditor.value = curr_value + code_content;
+        textEditor.innerHTML = curr_value + code_content;
     }
 
-    renderPreview(textEditor.value);
+    renderPreview();
 
     // TODO:Add More functions
 }
@@ -191,6 +184,9 @@ function hidepopup() {
 
 
 function insertAtCursor(myField, myValue) {
+    console.log(myField.selectionStart)
+    console.log(myField.selectionStart)
+
     //IE support
     if (document.selection) {
         myField.focus();
@@ -198,7 +194,10 @@ function insertAtCursor(myField, myValue) {
         sel.text = myValue;
     }
     //MOZILLA and others
+
     else if (myField.selectionStart || myField.selectionStart == '0') {
+        console.log(myField.selectionStart)
+        console.log(myField.selectionStart)
         var startPos = myField.selectionStart;
         var endPos = myField.selectionEnd;
         myField.value = myField.value.substring(0, startPos)
