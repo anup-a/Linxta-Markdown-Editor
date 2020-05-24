@@ -30,6 +30,7 @@ const table_content = "<br>|Col 1 |  Col 2|<br>|--|--|<br>| row 1, 1 |row 1, 2|<
 const strike_content = "~~Strikethrough Text~~";
 const head_content = "<br>## Heading 1";
 const code_content = "<br>```<br>// python 3.6 🐍<br>msg = 'Hello world !'<br>print(msg)<br>```"
+head_regex = /([#]+)(\s*.*)/gm;
 
 
 // Local Storage load
@@ -37,19 +38,31 @@ if (storedMarkdown) {
     textEditor.innerHTML = storedMarkdown;
 }
 
-renderPreview();
+// onInit
 
-function renderPreview() {
+value_init = convert(textEditor);
+renderPreview(value_init);
+
+
+
+function style_text() {
     value = convert(textEditor)
+    lint_text(head_regex, value);
+}
 
+// preview function
+function renderPreview(value) {
     html = converter.makeHtml(value);
     preview.innerHTML = html;
 }
 
 textEditor.addEventListener("keyup", (evt) => {
-    curr_position = saveRangePosition();
+
     saveCaret();
-    renderPreview();
+    value = convert(textEditor);
+    console.log(textEditor.innerHTML);
+    renderPreview(value);
+
 });
 
 
@@ -93,7 +106,8 @@ window.addEventListener('DOMContentLoaded', () => {
     picker.on('emoji', emoji => {
         // insertTextAtCaret(emoji);
         insertAtCaret(range, emoji);
-        renderPreview();
+        value = convert(textEditor);
+        renderPreview(value);
     });
     button.addEventListener('click', () => {
         picker.togglePicker(button);
@@ -134,8 +148,8 @@ function addStyle(ele) {
     else if (current_id == 'code') {
         textEditor.innerHTML = curr_value + code_content;
     }
-
-    renderPreview();
+    value = convert(textEditor)
+    renderPreview(value);
 
     // TODO:Add More functions
 }
@@ -143,24 +157,5 @@ function addStyle(ele) {
 
 // Text Linting
 
-head_regex = /(^[#]+\s.*)/gm
-// test_string = textEditor.value.toString();
-// heading_match = get_match(head_regex, test_string);
 
 
-function lint_text(re) {
-    console.log(textEditor.innerHTML);
-    const html_body = textEditor.innerHTML;
-    textEditor.innerHTML = html_body.replace(re, '<span class="heading">$1</span>');
-}
-
-
-// lint_text(head_regex);
-
-// function get_match(re, str) {
-//     index_str = []
-//     while ((match = re.exec(str)) != null) {
-//         index_str.add(match.index)
-//     }
-//     return index_str
-// } 

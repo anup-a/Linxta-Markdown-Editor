@@ -180,6 +180,7 @@ h1 {
     border: 0;
     resize: none;
     overflow: scroll;
+    display: inline-block;
 }
 
 

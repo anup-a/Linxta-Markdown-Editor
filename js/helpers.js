@@ -20,35 +20,39 @@ var convert = (function () {
     };
 })();
 
+// Fix the contenteditable issue
+
+$('div[contenteditable="true"]').keypress(function (event) {
+    if (event.which != 13)
+        return true;
+    var docFragment = document.createDocumentFragment();
+
+    var newEle = document.createTextNode('\n');
+    docFragment.appendChild(newEle);
+
+    newEle = document.createElement('br');
+    docFragment.appendChild(newEle);
 
 
-//Save selection and cursor
+    newEle = document.createElement('br');
+    docFragment.appendChild(newEle);
 
-function saveRangePosition() {
+
     var range = window.getSelection().getRangeAt(0);
-    var sC = range.startContainer, eC = range.endContainer;
+    range.deleteContents();
+    range.insertNode(docFragment);
 
-    A = []; while (sC !== bE) { A.push(getNodeIndex(sC)); sC = sC.parentNode }
-    B = []; while (eC !== bE) { B.push(getNodeIndex(eC)); eC = eC.parentNode }
+    range = document.createRange();
+    range.setStartAfter(newEle);
+    range.collapse(true);
 
-    return { "sC": A, "sO": range.startOffset, "eC": B, "eO": range.endOffset };
-}
-
-function restoreRangePosition(rp) {
-    bE.focus();
-    var sel = window.getSelection(), range = sel.getRangeAt(0);
-    var x, C, sC = bE, eC = bE;
-
-    C = rp.sC; x = C.length; while (x--) sC = sC.childNodes[C[x]];
-    C = rp.eC; x = C.length; while (x--) eC = eC.childNodes[C[x]];
-
-    range.setStart(sC, rp.sO);
-    range.setEnd(eC, rp.eO);
+    var sel = window.getSelection();
     sel.removeAllRanges();
-    sel.addRange(range)
-}
+    sel.addRange(range);
 
-function getNodeIndex(n) { var i = 0; while (n = n.previousSibling) i++; return i }
+    return false;
+});
+
 
 
 // On Save/clear Popups 
@@ -89,10 +93,8 @@ function saveCaret() {
     var sel;
     if (window.getSelection) {
         sel = window.getSelection();
-        console.log(sel);
         if (sel.getRangeAt && sel.rangeCount) {
             range = sel.getRangeAt(0);
-            range.deleteContents();
         }
     } else if (document.selection && document.selection.createRange) {
         document.selection.createRange().text = text;
@@ -100,5 +102,58 @@ function saveCaret() {
 }
 
 function insertAtCaret(range, text) {
+    range.deleteContents();
     range.insertNode(document.createTextNode(text));
+}
+
+
+// StripBR
+
+function stripBR(html) {
+    output = ""
+    let line_list = html.split("\n");
+    line_list.forEach(line => {
+        if (line.endsWith("<br>")) {
+            output += "\n"
+            output += line.slice(0, - 4);
+
+        } else {
+            output += "\n"
+            output += line
+        }
+    });
+    return output
+}
+
+// Text Linting
+
+function lint_text(re, content) {
+    const curr_html = textEditor.innerHTML;
+    console.log(curr_html)
+    alert(curr_html.match(re));
+    final_html = curr_html.replace(re, '$1<span class="heading">$2</span><br>');
+    textEditor.innerHTML = stripBR(final_html);
+}
+
+function getLastLine(text) {
+    let lastLine = "";
+    let line_list = text.split("\n").reverse();
+    for (var i = 0; i < line_list.length; i++) {
+        if (line_list[i].length > 2) {
+            return line_list[i]
+        }
+    }
+    return lastLine
+}
+
+
+function lint_line(line) {
+    console.log(line)
+    head_regex = /^([#]+)(\s.*)/gm;
+    const html_body = convert(textEditor);
+
+    if (head_regex.test(line)) {
+        console.log(head_regex)
+        textEditor.innerHTML = html_body.replace(head_regex, '$1<span class="heading">$2</span><br>');
+    }
 }

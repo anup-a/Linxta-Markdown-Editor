@@ -41,6 +41,7 @@
                 <div class="styles" id="emoji-button">
                     <ion-icon name="happy"></ion-icon>
                 </div>
+                <button onclick="style_text()">Lint Code</button>
             </div>
             <div class="site-props">
                 <input type="checkbox" class="checkbox" id="checkbox">
@@ -55,7 +56,7 @@
     <div class="main-content">
         <!-- <textarea name="text-container" class="text-container" spellcheck="false" autocomplete="off"
             autofocus># Write your markdown</textarea> -->
-        <div class="text-container" id=bE style="display:block;" contenteditable="true" autofocus># Write your Markdown
+        <div class="text-container" id=bE contenteditable="true" autofocus><br># Write your Markdown
         </div>
         <div class="preview"></div>
     </div>
@@ -77,6 +78,7 @@
         <p></p>
     </div>
 
+    <script src="./js/jquery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.0.3/dist/index.min.js"></script>
     <script src="./js/showdown.js"></script>
     <script src="./js/emoji.js"></script>
