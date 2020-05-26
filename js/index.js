@@ -14,7 +14,10 @@ const pre = document.getElementsByTagName("pre");
 var converter = new showdown.Converter();
 const storage = window.localStorage;
 let curr_position;
-let range;
+let rangeElement;
+
+
+
 
 // showdown config
 converter.setOption('tables', 'true');
@@ -30,7 +33,7 @@ const table_content = "<br>|Col 1 |  Col 2|<br>|--|--|<br>| row 1, 1 |row 1, 2|<
 const strike_content = "~~Strikethrough Text~~";
 const head_content = "<br>## Heading 1";
 const code_content = "<br>```<br>// python 3.6 🐍<br>msg = 'Hello world !'<br>print(msg)<br>```"
-head_regex = /([#]+)(\s*.*)/gm;
+head_regex = /([#]+)(\s*.*).*(?<!<\/span><br>)$/gm;
 
 
 // Local Storage load
@@ -43,13 +46,6 @@ if (storedMarkdown) {
 value_init = convert(textEditor);
 renderPreview(value_init);
 
-
-
-function style_text() {
-    value = convert(textEditor)
-    lint_text(head_regex, value);
-}
-
 // preview function
 function renderPreview(value) {
     html = converter.makeHtml(value);
@@ -57,12 +53,13 @@ function renderPreview(value) {
 }
 
 textEditor.addEventListener("keyup", (evt) => {
-
     saveCaret();
     value = convert(textEditor);
-    console.log(textEditor.innerHTML);
-    renderPreview(value);
 
+    if (evt.which == 13) {
+        style_text();
+    }
+    renderPreview(value);
 });
 
 
