@@ -3,7 +3,7 @@ pre[class*="language-"] {
     /* color: black; */
     /* background: none; */
     /* text-shadow: 0 1px white; */
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-family: 'Operator Mono Book';
     font-size: 1em;
     text-align: left;
     /* white-space: pre; */
@@ -48,8 +48,8 @@ code[class*="language-"] ::selection {
 
 /* Code blocks */
 pre[class*="language-"] {
-    padding: 1em;
-    margin: .5em 0;
+    padding: 0em;
+    margin: -1.5em 0;
 }
 
 :not(pre)>code[class*="language-"],

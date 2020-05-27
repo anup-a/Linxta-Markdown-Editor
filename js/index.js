@@ -50,6 +50,10 @@ renderPreview(value_init);
 function renderPreview(value) {
     html = converter.makeHtml(value);
     preview.innerHTML = html;
+    if (nightMode.checked) {
+        darkenCode();
+    }
+
 }
 
 textEditor.addEventListener("input", function () {
@@ -61,9 +65,18 @@ textEditor.addEventListener("input", function () {
 textEditor.addEventListener("keyup", (evt) => {
     saveCaret();
     value = convert(textEditor);
+    console.log(textEditor.innerHTML);
     renderPreview(value);
 });
 
+
+function darkenCode() {
+    for (var i = 0; i < pre.length; i++) {
+        if (pre[i].classList.length === 0) {
+            pre[i].classList.add("dark-code");
+        }
+    }
+}
 
 // Night Mode
 nightMode.addEventListener("click", (evt) => {
@@ -71,20 +84,13 @@ nightMode.addEventListener("click", (evt) => {
         textEditor.classList.add("dark");
         topBar.classList.add("dark");
         preview.classList.add("dark-preview");
-
-        for (var i = 0; i < pre.length; i++) {
-            if (pre[i].classList.length === 0) {
-                pre[i].classList.add("dark-code");
-            }
-        }
-
+        darkenCode()
         popup.classList.add("dark-popup");
 
     } else {
         textEditor.classList.remove("dark");
         topBar.classList.remove("dark");
         preview.classList.remove("dark-preview");
-
         for (var i = 0; i < pre.length; i++) {
             if (pre[i].classList.length != 0) {
                 pre[i].classList.remove("dark-code");
@@ -103,7 +109,6 @@ textEditor.addEventListener('click', () => {
 
 window.addEventListener('DOMContentLoaded', () => {
     picker.on('emoji', emoji => {
-        // insertTextAtCaret(emoji);
         insertAtCaret(rangeElement, emoji);
         value = convert(textEditor);
         renderPreview(value);

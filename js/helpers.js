@@ -1,5 +1,3 @@
-
-
 // Convert contenteditable div's innerHTML to textcontent
 var convert = (function () {
     var convertElement = function (element) {
@@ -22,10 +20,6 @@ var convert = (function () {
 
 // Fix the contenteditable issue
 
-function style_text() {
-    value = convert(textEditor)
-    lint_text(head_regex, value);
-}
 
 $('code[contenteditable="true"]').keypress(function (event) {
 
@@ -44,8 +38,8 @@ $('code[contenteditable="true"]').keypress(function (event) {
     docFragment.appendChild(newEle);
 
 
-    newEle = document.createElement('br');
-    docFragment.appendChild(newEle);
+    // newEle = document.createElement('br');
+    // docFragment.appendChild(newEle);
 
 
     var range = window.getSelection().getRangeAt(0);
@@ -95,65 +89,6 @@ function hidepopup() {
     popup.classList.add('hide');
 }
 
-
-
-
-// StripBR
-
-function stripBR(html) {
-    output = ""
-    let line_list = html.split("\n");
-    line_list.forEach(line => {
-        if (line.endsWith("<br>")) {
-            output += "\n"
-            output += line.slice(0, - 4);
-
-        } else {
-            output += "\n"
-            output += line
-        }
-    });
-    return output
-}
-
-// Text Linting
-
-function lint_text(re, content) {
-    const curr_html = textEditor.innerHTML;
-    console.log(curr_html)
-    // alert(curr_html.match(re));
-    saveRangePosition();
-    final_html = curr_html.replace(re, '$1<span class="heading">$2</span><br>');
-    textEditor.innerHTML = final_html;
-    restoreRangePosition();
-}
-
-function getLastLine(text) {
-    let lastLine = "";
-    let line_list = text.split("\n").reverse();
-    for (var i = 0; i < line_list.length; i++) {
-        if (line_list[i].length > 2) {
-            return line_list[i]
-        }
-    }
-    return lastLine
-}
-
-
-function lint_line(line) {
-    console.log(line)
-    head_regex = /^([#]+)(\s.*)/gm;
-    const html_body = convert(textEditor);
-
-    if (head_regex.test(line)) {
-        console.log(head_regex)
-        if (head_regex.test(html_body)) {
-            textEditor.innerHTML = html_body.replace(head_regex, '$1<span class="heading">$2</span><br>');
-        } else {
-            textEditor.innerHTML = html_body
-        }
-    }
-}
 
 function saveCaretPosition(context) {
     var selection = window.getSelection();
