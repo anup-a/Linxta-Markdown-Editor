@@ -6,4 +6,8 @@
 
 📷 🥃
 
-![screenshot](./images/shot.png)
+![screenshot](./images/shot1.png)
+
+---
+
+![screenshot](./images/shot2.png)
