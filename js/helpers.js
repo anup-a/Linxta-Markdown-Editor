@@ -27,7 +27,7 @@ function style_text() {
     lint_text(head_regex, value);
 }
 
-$('div[contenteditable="true"]').keypress(function (event) {
+$('code[contenteditable="true"]').keypress(function (event) {
 
     if (event.which != 13)
         return true;
@@ -44,8 +44,8 @@ $('div[contenteditable="true"]').keypress(function (event) {
     docFragment.appendChild(newEle);
 
 
-    // newEle = document.createElement('br');
-    // docFragment.appendChild(newEle);
+    newEle = document.createElement('br');
+    docFragment.appendChild(newEle);
 
 
     var range = window.getSelection().getRangeAt(0);
@@ -147,22 +147,73 @@ function lint_line(line) {
 
     if (head_regex.test(line)) {
         console.log(head_regex)
-        textEditor.innerHTML = html_body.replace(head_regex, '$1<span class="heading">$2</span><br>');
+        if (head_regex.test(html_body)) {
+            textEditor.innerHTML = html_body.replace(head_regex, '$1<span class="heading">$2</span><br>');
+        } else {
+            textEditor.innerHTML = html_body
+        }
     }
+}
+
+function saveCaretPosition(context) {
+    var selection = window.getSelection();
+    var range = selection.getRangeAt(0);
+    range.setStart(context, 0);
+    var len = range.toString().length;
+
+    return function restore() {
+        var pos = getTextNodeAtPosition(context, len);
+        selection.removeAllRanges();
+        var range = new Range();
+        range.setStart(pos.node, pos.position);
+        selection.addRange(range);
+
+    }
+}
+
+function getTextNodeAtPosition(root, index) {
+    var lastNode = null;
+
+    var treeWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, function next(elem) {
+        if (index > elem.textContent.length) {
+            index -= elem.textContent.length;
+            lastNode = elem;
+            return NodeFilter.FILTER_REJECT
+        }
+        return NodeFilter.FILTER_ACCEPT;
+    });
+    var c = treeWalker.nextNode();
+    return {
+        node: c ? c : root,
+        position: index
+    };
 }
 
 function saveRangePosition() {
     var range = window.getSelection().getRangeAt(0);
     var sC = range.startContainer, eC = range.endContainer;
+    console.log(sC, eC, getNodeIndex(sC), sC !== bE, sC.parentNode)
+    console.log(sC !== bE);
 
-    A = []; while (sC !== bE) { A.push(getNodeIndex(sC)); sC = sC.parentNode }
-    B = []; while (eC !== bE) { B.push(getNodeIndex(eC)); eC = eC.parentNode }
+    A = [];
+    while (sC !== bE) {
+        clg(getNodeIndex(sC))
+        A.push(getNodeIndex(sC));
+        sC = sC.parentNode
+    }
+    B = [];
+    while (eC !== bE) {
+        B.push(getNodeIndex(eC));
+        eC = eC.parentNode
+    }
 
+    console.log(A, B)
     window.rp = { "sC": A, "sO": range.startOffset, "eC": B, "eO": range.endOffset };
 }
 
 function restoreRangePosition() {
     bE.focus();
+    console.log(rp)
     var sel = window.getSelection(), range = sel.getRangeAt(0);
     var x, C, sC = bE, eC = bE;
 

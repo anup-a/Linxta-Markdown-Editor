@@ -175,13 +175,24 @@ h1 {
 
 /* maiin content */
 .text-container {
-    flex: 1;
-    padding: 30px;
+    margin: 0;
     border: 0;
     resize: none;
-    overflow: scroll;
-    display: inline-block;
+    width: auto;
+    float: left;
+
+    /* max-width: 100%; */
+    /* width: 100%; */
+    /* align-items: flex-start; */
+    /* display: inline-block; */
 }
+
+.text-container-wrapper {
+    flex: 1;
+    overflow-y: scroll;
+    width: 100%;
+}
+
 
 
 .text-container:focus {
@@ -198,7 +209,7 @@ h1 {
 
 .preview,
 .text-container {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
     padding-bottom: 60px;
 }
 
@@ -285,15 +296,15 @@ pre {
     border-radius: 10px;
 }
 
-.text-container::-webkit-scrollbar {
+.text-container-wrapper::-webkit-scrollbar {
     width: 0.7em;
 }
 
-.text-container::-webkit-scrollbar-track {
+.text-container-wrapper::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-.text-container::-webkit-scrollbar-thumb {
+.text-container-wrapper::-webkit-scrollbar-thumb {
     background-color: rgb(145, 117, 175);
     outline: 1px solid rgb(141, 108, 179);
     border-radius: 10px;

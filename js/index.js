@@ -29,15 +29,15 @@ converter.setOption('smoothLivePreview', 'true');
 
 
 const storedMarkdown = storage.getItem('data');
-const table_content = "<br>|Col 1 |  Col 2|<br>|--|--|<br>| row 1, 1 |row 1, 2|<br>| row 2, 1 |row 2, 2|<br>"
+const table_content = "\n|Col 1 |  Col 2|\n|--|--|\n| row 1, 1 |row 1, 2|\n| row 2, 1 |row 2, 2|\n"
 const strike_content = "~~Strikethrough Text~~";
-const head_content = "<br>## Heading 1";
-const code_content = "<br>```<br>// python 3.6 🐍<br>msg = 'Hello world !'<br>print(msg)<br>```"
-head_regex = /([#]+)(\s*.*).*(?<!<\/span><br>)$/gm;
+const head_content = "\n## Heading 1";
+const code_content = "\n```\n// python 3.6 🐍\nmsg = 'Hello world !'\nprint(msg)\n```"
 
 
 // Local Storage load
 if (storedMarkdown) {
+    console.log("stored", storedMarkdown);
     textEditor.innerHTML = storedMarkdown;
 }
 
@@ -52,13 +52,15 @@ function renderPreview(value) {
     preview.innerHTML = html;
 }
 
+textEditor.addEventListener("input", function () {
+    var restore = saveCaretPosition(this);
+    Prism.highlightElement(this);
+    restore();
+});
+
 textEditor.addEventListener("keyup", (evt) => {
     saveCaret();
     value = convert(textEditor);
-
-    if (evt.which == 13) {
-        style_text();
-    }
     renderPreview(value);
 });
 
@@ -102,7 +104,7 @@ textEditor.addEventListener('click', () => {
 window.addEventListener('DOMContentLoaded', () => {
     picker.on('emoji', emoji => {
         // insertTextAtCaret(emoji);
-        insertAtCaret(range, emoji);
+        insertAtCaret(rangeElement, emoji);
         value = convert(textEditor);
         renderPreview(value);
     });
@@ -134,10 +136,10 @@ function addStyle(ele) {
     }
 
     else if (current_id == 'list') {
-        textEditor.innerHTML = curr_value + "<br> - List Item";
+        textEditor.innerHTML = curr_value + "\n - List Item";
     }
     else if (current_id == 'hor-line') {
-        textEditor.innerHTML = curr_value + "<br> ---";
+        textEditor.innerHTML = curr_value + "\n ---";
     }
     else if (current_id == 'table') {
         textEditor.innerHTML = curr_value + table_content;
