@@ -1,7 +1,9 @@
 
 // Anup Aglawe ©2020
 
+let mainContainer = document.querySelector('.main-content');
 let textEditor = document.querySelector('.text-container');
+let textEditorWrapper = document.querySelector('.text-container-wrapper');
 let preview = document.querySelector('.preview');
 let popup = document.querySelector('.popup');
 
@@ -70,27 +72,26 @@ textEditor.addEventListener("keyup", (evt) => {
 });
 
 
-function darkenCode() {
-    for (var i = 0; i < pre.length; i++) {
-        if (pre[i].classList.length === 0) {
-            pre[i].classList.add("dark-code");
-        }
-    }
-}
+
 
 // Night Mode
 nightMode.addEventListener("click", (evt) => {
     if (nightMode.checked) {
-        textEditor.classList.add("dark");
+        // textEditor.classList.add("dark");
         topBar.classList.add("dark");
         preview.classList.add("dark-preview");
-        darkenCode()
+        mainContainer.classList.add("dark-preview");
+        darkenCode();
+
         popup.classList.add("dark-popup");
+        textEditorWrapper.classList.add('dark');
 
     } else {
-        textEditor.classList.remove("dark");
+        // textEditor.classList.remove("dark");
         topBar.classList.remove("dark");
         preview.classList.remove("dark-preview");
+        mainContainer.classList.remove("dark-preview");
+        textEditorWrapper.classList.remove("dark");
         for (var i = 0; i < pre.length; i++) {
             if (pre[i].classList.length != 0) {
                 pre[i].classList.remove("dark-code");

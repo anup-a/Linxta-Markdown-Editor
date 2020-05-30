@@ -1,12 +1,9 @@
 code[class*="language-"],
 pre[class*="language-"] {
-    /* color: black; */
-    /* background: none; */
-    /* text-shadow: 0 1px white; */
     font-family: 'Operator Mono Book';
     font-size: 1em;
     text-align: left;
-    /* white-space: pre; */
+    white-space: pre-wrap;
     word-spacing: normal;
     word-break: normal;
     word-wrap: normal;

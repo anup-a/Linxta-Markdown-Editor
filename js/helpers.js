@@ -181,3 +181,13 @@ function insertAtCaret(rangeElement, text) {
     rangeElement.deleteContents();
     rangeElement.insertNode(document.createTextNode(text));
 }
+
+
+//  night mode
+function darkenCode() {
+    for (var i = 0; i < pre.length; i++) {
+        if (pre[i].classList.length === 0) {
+            pre[i].classList.add("dark-code");
+        }
+    }
+}
