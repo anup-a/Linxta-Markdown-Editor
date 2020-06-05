@@ -127,8 +127,6 @@ function getTextNodeAtPosition(root, index) {
 function saveRangePosition() {
     var range = window.getSelection().getRangeAt(0);
     var sC = range.startContainer, eC = range.endContainer;
-    console.log(sC, eC, getNodeIndex(sC), sC !== bE, sC.parentNode)
-    console.log(sC !== bE);
 
     A = [];
     while (sC !== bE) {
@@ -142,13 +140,11 @@ function saveRangePosition() {
         eC = eC.parentNode
     }
 
-    console.log(A, B)
     window.rp = { "sC": A, "sO": range.startOffset, "eC": B, "eO": range.endOffset };
 }
 
 function restoreRangePosition() {
     bE.focus();
-    console.log(rp)
     var sel = window.getSelection(), range = sel.getRangeAt(0);
     var x, C, sC = bE, eC = bE;
 
@@ -191,3 +187,4 @@ function darkenCode() {
         }
     }
 }
+

@@ -39,7 +39,6 @@ const code_content = "\n```\n// python 3.6 🐍\nmsg = 'Hello world !'\nprint(ms
 
 // Local Storage load
 if (storedMarkdown) {
-    console.log("stored", storedMarkdown);
     textEditor.innerHTML = storedMarkdown;
 }
 
@@ -67,7 +66,6 @@ textEditor.addEventListener("input", function () {
 textEditor.addEventListener("keyup", (evt) => {
     saveCaret();
     value = convert(textEditor);
-    console.log(textEditor.innerHTML);
     renderPreview(value);
 });
 
@@ -159,8 +157,15 @@ function addStyle(ele) {
     // TODO:Add More functions
 }
 
+// Make full screen
+function makeFullScreen() {
+    preview.classList.add("full-screen");
+    window.print();
+    preview.classList.remove("full-screen");
+}
 
-// Text Linting
 
-
-
+// download
+function download(evt) {
+    makeFullScreen();
+}
